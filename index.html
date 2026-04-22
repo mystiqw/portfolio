@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio — Miras Algatay</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c18;
+    --surface: #0f1420;
+    --border: #1a2035;
+    --accent: #1a3cff;
+    --green: #00b894;
+    --text: #e2e6f0;
+    --sub: #6b7694;
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(26,60,255,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26,60,255,.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+    mask-image: radial-gradient(ellipse 100% 50% at 50% 0%, black, transparent);
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(8,12,24,.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 900px; margin: 0 auto; padding: 0 24px;
+    height: 52px; display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .nav-logo { font-family: 'Instrument Serif', serif; font-size: 18px; color: var(--white); }
+  .nav-logo em { font-style: italic; color: var(--accent); }
+
+  .nav-right { display: flex; align-items: center; gap: 20px; }
+  .nav-right a { font-size: 12px; color: var(--sub); text-decoration: none; transition: color .2s; }
+  .nav-right a:hover { color: var(--text); }
+
+  .nav-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: .08em;
+    background: rgba(26,60,255,.15); color: var(--accent);
+    padding: 3px 10px; border-radius: 100px;
+    border: 1px solid rgba(26,60,255,.25);
+  }
+
+  main { padding-top: 52px; }
+
+  /* HERO */
+  .hero {
+    padding: 80px 0 64px;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 32px; align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: .1em; color: var(--green);
+    background: rgba(0,184,148,.08); border: 1px solid rgba(0,184,148,.18);
+    padding: 3px 12px; border-radius: 100px;
+    margin-bottom: 20px; width: fit-content;
+  }
+
+  .hero-eyebrow::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--green); box-shadow: 0 0 6px var(--green);
+    animation: blink 2s ease infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 5vw, 54px);
+    font-weight: 400; line-height: 1.1; color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--accent); }
+
+  .hero-sub { font-size: 15px; color: var(--sub); max-width: 50ch; line-height: 1.75; }
+
+  .hero-stats {
+    display: flex; flex-direction: column; gap: 12px;
+    padding: 20px 24px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; min-width: 160px;
+  }
+
+  .stat-item { display: flex; flex-direction: column; gap: 2px; }
+  .stat-num { font-family: 'Instrument Serif', serif; font-size: 28px; color: var(--white); line-height: 1; }
+  .stat-num em { font-style: italic; color: var(--accent); }
+  .stat-label { font-size: 10px; color: var(--sub); font-family: 'JetBrains Mono', monospace; letter-spacing: .07em; text-transform: uppercase; }
+
+  /* SECTION */
+  section { padding: 56px 0; border-top: 1px solid var(--border); }
+
+  .sec-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 400; color: var(--white);
+    margin-bottom: 8px; line-height: 1.2;
+  }
+
+  .sec-desc { font-size: 13px; color: var(--sub); max-width: 54ch; margin-bottom: 32px; }
+
+  /* PROJECTS SECTION */
+  .projects-section {
+    padding: 56px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  /* PROJECT CARDS */
+  .proj-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .proj-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color .25s, transform .25s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .proj-card:hover { border-color: rgba(26,60,255,.4); transform: translateY(-3px); }
+
+  .proj-thumb {
+    position: relative;
+    height: 180px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--border);
+  }
+
+  .proj-body { padding: 16px 18px 18px; }
+  .proj-title { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .proj-desc  { font-size: 12px; color: var(--sub); line-height: 1.6; margin-bottom: 10px; }
+
+  .proj-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .proj-tag {
+    font-size: 10px; padding: 2px 8px; border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace; letter-spacing: .04em;
+  }
+
+  .tag-blue  { background: rgba(26,60,255,.12); color: #5b8cff; border: 1px solid rgba(26,60,255,.2); }
+  .tag-green { background: rgba(0,184,148,.1); color: var(--green); border: 1px solid rgba(0,184,148,.18); }
+  .tag-gray  { background: rgba(255,255,255,.05); color: var(--sub); border: 1px solid var(--border); }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+  .skill-block {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 18px;
+    position: relative; overflow: hidden;
+  }
+
+  .skill-block::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  }
+
+  .skill-block.design::before { background: linear-gradient(90deg, var(--accent), #7b61ff); }
+  .skill-block.tech::before   { background: linear-gradient(90deg, #ff6b35, #ffb347); }
+  .skill-block.soft::before   { background: linear-gradient(90deg, var(--green), #00d4aa); }
+
+  .skill-block-title { font-size: 12px; font-weight: 600; color: var(--white); margin-bottom: 10px; }
+
+  .skill-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+  .skill-name { font-size: 12px; color: var(--text); }
+  .skill-bar-wrap { width: 80px; height: 4px; background: var(--border); border-radius: 100px; }
+  .skill-bar { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--accent), var(--green)); }
+
+  /* APPROACH */
+  .approach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+  .approach-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px;
+  }
+
+  .approach-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 36px; font-style: italic;
+    color: rgba(26,60,255,.3); line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .approach-title { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .approach-desc  { font-size: 12px; color: var(--sub); line-height: 1.6; }
+
+  /* CONTACT STRIP */
+  .contact-strip {
+    background: linear-gradient(135deg, rgba(26,60,255,.1), rgba(0,184,148,.06));
+    border: 1px solid rgba(26,60,255,.2);
+    border-radius: 20px; padding: 40px 48px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;
+  }
+
+  .contact-strip h2 { margin-bottom: 6px; }
+  .contact-strip p  { color: var(--sub); font-size: 13px; }
+
+  .contact-items { display: flex; flex-direction: column; gap: 8px; }
+  .contact-item { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  .contact-icon { color: var(--accent); font-size: 14px; }
+
+  /* Footer */
+  .footer { padding: 32px 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .footer-logo { font-family: 'Instrument Serif', serif; font-size: 17px; color: var(--white); }
+  .footer-logo em { font-style: italic; color: var(--accent); }
+  .footer-copy { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--sub); }
+
+  @media (max-width: 640px) {
+    .proj-grid, .skills-grid, .approach-grid { grid-template-columns: 1fr; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-stats { flex-direction: row; min-width: unset; }
+    .contact-strip { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Miras <em>Algatay</em></div>
+    <div class="nav-right">
+      <a href="#projects">Projekte</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Kontakt</a>
+      <div class="nav-badge">Portfolio 2025</div>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div>
+        <div class="hero-eyebrow">Bewerbung · OWL-IT Praktikum · Sommer 2025</div>
+        <h1>Design trifft<br><em>Psychologie</em><br>trifft Code.</h1>
+        <p class="hero-sub">Ich bin Miras - CS & Psychology Student aus Bremen, der Interfaces gestaltet, die nicht nur gut aussehen, sondern wirklich funktionieren. Für Menschen.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">6<em>+</em></div>
+          <div class="stat-label">UX Projekte</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" style="color:var(--green)">2</div>
+          <div class="stat-label">Studienfächer</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Lernbereitschaft</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <p class="sec-label">01 — Projekte</p>
+      <h2>Ausgewählte Arbeiten</h2>
+      <p class="sec-desc">Von Design Systems bis Mobile Apps — hier ist, was ich bisher gebaut habe.</p>
+
+      <div class="proj-grid">
+
+        <a href="https://www.linkedin.com/posts/miras-algatay-93914b304_designsystem-uiux-figma-ugcPost-7452703551451197441-KUn1?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE2en30Blo6CO5Yv_xbVq45W8UfhXrWmsK8" target="_blank" class="proj-card">
+          <div class="proj-thumb" style="background: url('images/scalable.png') center/cover no-repeat;"></div>
+          <div class="proj-body">
+            <div class="proj-title">Scalable Design System</div>
+            <div class="proj-desc">Vollständiges Design System mit Color Tokens, Typografie-Skala, Komponenten und Dokumentationsstruktur — entwickelt für Skalierbarkeit über mehrere Produkte.</div>
+            <div class="proj-tags">
+              <span class="proj-tag tag-blue">Design Tokens</span>
+              <span class="proj-tag tag-blue">Komponenten</span>
+              <span class="proj-tag tag-gray">Figma Variables</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="https://www.linkedin.com/posts/miras-algatay-93914b304_travel-places-app-mobile-uiux-design-share-7442870751289892864-Y6fb?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE2en30Blo6CO5Yv_xbVq45W8UfhXrWmsK8" target="_blank" class="proj-card">
+          <div class="proj-thumb" style="background: url('images/travelapp.png') center/cover no-repeat;"></div>
+          <div class="proj-body">
+            <div class="proj-title">Travel Places App</div>
+            <div class="proj-desc">Mobile App für Reiseplanung mit Fokus auf Informationsarchitektur, Kartenintegration und intuitive Navigation zwischen Reisezielen.</div>
+            <div class="proj-tags">
+              <span class="proj-tag tag-green">Mobile UX</span>
+              <span class="proj-tag tag-green">Navigation Design</span>
+              <span class="proj-tag tag-gray">Prototyping</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="https://www.linkedin.com/posts/miras-algatay-93914b304_food-ordering-mobile-app-ui-design-figma-share-7442867338070228992-Knoo?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE2en30Blo6CO5Yv_xbVq45W8UfhXrWmsK8" target="_blank" class="proj-card">
+          <div class="proj-thumb" style="background: url('images/food.png') center/cover no-repeat;"></div>
+          <div class="proj-body">
+            <div class="proj-title">Food Ordering Platform</div>
+            <div class="proj-desc">UX-optimierter Bestellflow für Food-Delivery — mit Fokus auf Conversion, Warenkorb-Erlebnis und klarer visueller Hierarchie.</div>
+            <div class="proj-tags">
+              <span class="proj-tag tag-blue">E-Commerce UX</span>
+              <span class="proj-tag tag-gray">User Flow</span>
+              <span class="proj-tag tag-gray">Conversion</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="https://www.linkedin.com/posts/miras-algatay-93914b304_uiux-uidesign-uxdesign-ugcPost-7449228029542772736-xbPs?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE2en30Blo6CO5Yv_xbVq45W8UfhXrWmsK8" target="_blank" class="proj-card">
+          <div class="proj-thumb" style="background: url('images/cinema.png') center/cover no-repeat;"></div>
+          <div class="proj-body">
+            <div class="proj-title">Movie Streaming App</div>
+            <div class="proj-desc">Streaming-Interface mit Content-Discovery-Fokus — Dark Mode Design, personalisierte Empfehlungen und klare Browse-Architektur.</div>
+            <div class="proj-tags">
+              <span class="proj-tag tag-blue">Visual Design</span>
+              <span class="proj-tag tag-blue">Dark UI</span>
+              <span class="proj-tag tag-gray">Navigation</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="https://www.linkedin.com/posts/miras-algatay-93914b304_car-rental-website-uiux-design-figma-share-7442872897133645824-5DOx?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE2en30Blo6CO5Yv_xbVq45W8UfhXrWmsK8" target="_blank" class="proj-card">
+          <div class="proj-thumb" style="background: url('images/car.png') center/cover no-repeat;"></div>
+          <div class="proj-body">
+            <div class="proj-title">Car Rental Website</div>
+            <div class="proj-desc">Web-Konzept für Fahrzeugvermietung — Buchungsflow, Fahrzeugauswahl und responsive Layouts mit HTML/CSS-Umsetzung.</div>
+            <div class="proj-tags">
+              <span class="proj-tag tag-green">Web UX</span>
+              <span class="proj-tag tag-green">HTML/CSS</span>
+              <span class="proj-tag tag-gray">Responsive</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="https://www.linkedin.com/posts/miras-algatay-93914b304_e-bike-website-uiux-design-figma-share-7442872482182795264-p_jK?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE2en30Blo6CO5Yv_xbVq45W8UfhXrWmsK8" target="_blank" class="proj-card">
+          <div class="proj-thumb" style="background: url('images/ebike.png') center/cover no-repeat;"></div>
+          <div class="proj-body">
+            <div class="proj-title">E-Bike Website</div>
+            <div class="proj-desc">Produkt-Landingpage für E-Bikes — Brand Identity, visuelle Storytelling-Struktur und direkter Pfad zur Produktauswahl.</div>
+            <div class="proj-tags">
+              <span class="proj-tag tag-blue">Brand Design</span>
+              <span class="proj-tag tag-blue">Landing Page</span>
+              <span class="proj-tag tag-gray">Features</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <p class="sec-label">02 — Kompetenzen</p>
+      <h2>Was ich mitbringe</h2>
+      <p class="sec-desc">Eine ungewöhnliche Kombination — und genau das macht den Unterschied beim Designen für echte Nutzer.</p>
+
+      <div class="skills-grid">
+        <div class="skill-block design">
+          <div class="skill-block-title">🎨 Design</div>
+          <div class="skill-row"><span class="skill-name">Figma</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Prototyping</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Design Systems</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:72%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">UI Components</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div></div>
+        </div>
+        <div class="skill-block tech">
+          <div class="skill-block-title">⚙ Technologie</div>
+          <div class="skill-row"><span class="skill-name">C / C++</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">HTML / CSS</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:20%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Interaction Design</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:40%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Wireframing</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:30%"></div></div></div>
+        </div>
+        <div class="skill-block soft">
+          <div class="skill-block-title">🧠 Psychologie</div>
+          <div class="skill-row"><span class="skill-name">Kognitive UX</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">User Research</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:65%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Accessibility</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:60%"></div></div></div>
+          <div class="skill-row"><span class="skill-name">Nutzerverhalten</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPROACH -->
+    <section>
+      <p class="sec-label">03 — Meine Arbeitsweise</p>
+      <h2>Wie ich denke</h2>
+      <p class="sec-desc">UX ist kein Styling — es ist Problemlösung. Drei Prinzipien leiten meine Arbeit.</p>
+      <div class="approach-grid">
+        <div class="approach-card">
+          <div class="approach-num">01</div>
+          <div class="approach-title">Verstehen vor Gestalten</div>
+          <div class="approach-desc">Ich frage erst: Wer nutzt das, wann, in welchem Kontext? Psychologisches Verständnis kommt vor dem ersten Frame.</div>
+        </div>
+        <div class="approach-card">
+          <div class="approach-num">02</div>
+          <div class="approach-title">Struktur vor Ästhetik</div>
+          <div class="approach-desc">Gute Informationsarchitektur macht ein Interface nutzbar. Schönheit verstärkt das — aber ersetzt es nicht.</div>
+        </div>
+        <div class="approach-card">
+          <div class="approach-num">03</div>
+          <div class="approach-title">Entwicklergerecht übergeben</div>
+          <div class="approach-desc">Designs müssen gebaut werden können. Meine CS-Kenntnisse helfen mir, Specs zu erstellen, die im Code auch funktionieren.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="contact-strip">
+        <div>
+          <p class="sec-label" style="margin-bottom:8px">04 — Kontakt</p>
+          <h2>Sprechen wir.</h2>
+          <p>Ich freue mich auf ein Gespräch über ein Praktikum bei OWL-IT im Sommer 2025.</p>
+        </div>
+        <div class="contact-items">
+          <div class="contact-item"><span class="contact-icon">✉</span>mirasalgataj06@gmail.com</div>
+          <div class="contact-item"><span class="contact-icon">✆</span>+49 160 124 19 15</div>
+          <div class="contact-item"><span class="contact-icon">🎓</span>Constructor University Bremen</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="footer-logo">Miras <em>Algatay</em></div>
+      <div class="footer-copy">Portfolio · UX/UI Design · Bremen 2025</div>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>
